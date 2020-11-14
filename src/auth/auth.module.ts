@@ -11,11 +11,11 @@ import { SharedModule } from './shared/shared.module';
     declarations: [],
     imports: [
         CommonModule,
+        AuthRoutingModule,
         AngularFireModule.initializeApp(environment.firebaseConfig),
         AngularFireAuthModule,
         AngularFirestoreModule,
-        SharedModule.forRoot(),
-        AuthRoutingModule
+        SharedModule.forRoot()
     ]
 })
 export class AuthModule {

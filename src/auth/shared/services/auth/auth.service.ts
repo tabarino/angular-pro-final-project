@@ -8,6 +8,7 @@ import { User } from '../../models/user.model';
 @Injectable()
 export class AuthService {
     auth$: Observable<firebase.default.User>;
+    user: User;
 
     constructor(
         private store: Store,
@@ -20,13 +21,13 @@ export class AuthService {
                     return;
                 }
 
-                const user: User = {
+                this.user = {
                     uid: next.uid,
                     email: next.email,
                     authenticated: true
                 };
 
-                this.store.set('user', user);
+                this.store.set('user', this.user);
             })
         );
     }
