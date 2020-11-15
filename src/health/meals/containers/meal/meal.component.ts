@@ -27,13 +27,25 @@ export class MealComponent implements OnInit, OnDestroy {
         );
     }
 
+    backToMeals() {
+        this.router.navigate(['/meals']);
+    }
+
     async addMeal(event: Meal) {
         await this.mealsService.addMeal(event);
         this.backToMeals();
     }
 
-    backToMeals() {
-        this.router.navigate(['/meals']);
+    async updateMeal(event: Meal) {
+        const id = this.route.snapshot.params.id;
+        await this.mealsService.updateMeal(id, event);
+        this.backToMeals();
+    }
+
+    async removeMeal() {
+        const id = this.route.snapshot.params.id;
+        await this.mealsService.removeMeal(id);
+        this.backToMeals();
     }
 
     ngOnDestroy(): void {

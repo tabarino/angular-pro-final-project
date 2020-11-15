@@ -47,6 +47,10 @@ export class MealsService {
         });
     }
 
+    updateMeal(id: string, meal: Meal) {
+        this.db.doc(`meals/${id}`).update(meal);
+    }
+
     removeMeal(id: string) {
         this.db.doc(`meals/${id}`).delete();
     }
