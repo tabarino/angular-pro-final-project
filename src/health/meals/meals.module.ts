@@ -5,11 +5,13 @@ import { MealsRoutingModule } from './meals-routing.module';
 import { SharedModule } from 'src/auth/shared/shared.module';
 import { MealComponent } from './containers/meal/meal.component';
 import { MealsComponent } from './containers/meals/meals.component';
+import { MealFormComponent } from './components/meal-form/meal-form.component';
 
 @NgModule({
     declarations: [
         MealsComponent,
-        MealComponent
+        MealComponent,
+        MealFormComponent
     ],
     imports: [
         CommonModule,
