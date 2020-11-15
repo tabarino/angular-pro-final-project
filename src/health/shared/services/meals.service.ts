@@ -5,7 +5,7 @@ import { map, tap } from 'rxjs/operators';
 import { AuthService } from 'src/auth/shared/services/auth/auth.service';
 import { Store } from 'src/store/store';
 import { Meal } from '../models/meal.model';
-import { convertSnapsDocItems } from './db-utils';
+import { convertSnaps } from './db-utils';
 
 @Injectable()
 export class MealsService {
@@ -16,13 +16,23 @@ export class MealsService {
         private db: AngularFirestore,
         private authService: AuthService
     ) {
-        this.meals$ = this.db.doc(`meals/${ this.uid }`).snapshotChanges().pipe(
-            map(snaps => convertSnapsDocItems<Meal>(snaps)),
+        this.meals$ = this.db.collection(
+            'meals', ref => ref.where('uid', '==', this.uid).orderBy('timestamp', 'desc')
+        ).snapshotChanges().pipe(
+            map(snaps => convertSnaps<Meal>(snaps)),
             tap(meals => this.store.set('meals', meals))
         );
     }
 
     get uid() {
         return this.authService.user.uid;
+    }
+
+    addMeal(meal: Meal) {
+        return this.db.collection('meals').add({
+            ...meal,
+            uid: this.uid,
+            timestamp: new Date().getTime()
+        });
     }
 }
