@@ -35,4 +35,8 @@ export class MealsService {
             timestamp: new Date().getTime()
         });
     }
+
+    removeMeal(id: string) {
+        this.db.doc(`meals/${id}`).delete();
+    }
 }

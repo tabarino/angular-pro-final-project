@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
     selector: 'list-item',
@@ -8,9 +8,23 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 })
 export class ListItemComponent implements OnInit {
     @Input() item: any;
+    @Output() remove = new EventEmitter<any>();
+    toggled = false;
 
     constructor() { }
 
     ngOnInit(): void {
+    }
+
+    toggle() {
+        this.toggled = !this.toggled;
+    }
+
+    getRoute(item: any) {
+        return [`../meals`, item.id];
+    }
+
+    removeItem() {
+        this.remove.emit(this.item);
     }
 }

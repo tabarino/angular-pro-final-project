@@ -1,5 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { MealsService } from './services/meals.service';
 import { ListItemComponent } from './components/list-item/list-item.component';
@@ -10,6 +11,7 @@ import { ListItemComponent } from './components/list-item/list-item.component';
     ],
     imports: [
         CommonModule,
+        RouterModule,
         AngularFirestoreModule
     ],
     exports: [
