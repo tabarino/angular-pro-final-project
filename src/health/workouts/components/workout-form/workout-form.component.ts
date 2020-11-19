@@ -16,7 +16,8 @@ export class WorkoutFormComponent implements OnInit, OnChanges {
     toggled = false;
     exists = false;
     form = this.fb.group({
-        name: ['', Validators.required]
+        name: ['', Validators.required],
+        type: 'strength'
     });
 
     constructor(
