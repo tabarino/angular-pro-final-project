@@ -4,8 +4,8 @@ import { Observable, of } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { AuthService } from 'src/auth/shared/services/auth/auth.service';
 import { Store } from 'src/store/store';
-import { Meal } from '../models/meal.model';
-import * as dbUtils from './db-utils';
+import { Meal } from '../../models/meal.model';
+import * as dbUtils from '../db-utils';
 
 @Injectable()
 export class MealsService {

@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Meal } from 'src/health/shared/models/meal.model';
-import { MealsService } from 'src/health/shared/services/meals.service';
+import { MealsService } from 'src/health/shared/services/meals/meals.service';
 
 @Component({
     selector: 'meal',
