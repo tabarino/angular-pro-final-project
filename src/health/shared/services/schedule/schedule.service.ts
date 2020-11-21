@@ -13,4 +13,8 @@ export class ScheduleService {
             tap((next: any) => this.store.set('date', next))
         );
     }
+
+    updateDate(date: Date) {
+        this.date$.next(date);
+    }
 }
