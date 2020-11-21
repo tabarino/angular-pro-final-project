@@ -21,7 +21,10 @@ export class ListItemComponent implements OnInit {
     }
 
     getRoute(item: any) {
-        return [`../meals`, item.id];
+        return [
+            `../${item.ingredients ? 'meals' : 'workouts'}`,
+            item.id
+        ];
     }
 
     removeItem() {
