@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
+import { ScheduleItem } from 'src/health/shared/models/scheduleItem.model';
 import { ScheduleService } from 'src/health/shared/services/schedule/schedule.service';
 import { Store } from 'src/store/store';
 
@@ -10,6 +11,7 @@ import { Store } from 'src/store/store';
 })
 export class ScheduleComponent implements OnInit, OnDestroy {
     date$: Observable<Date>;
+    schedule$: Observable<ScheduleItem[]>;
     subscriptions: Subscription[] = [];
 
     constructor(
@@ -19,6 +21,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.date$ = this.store.select('date');
+        this.schedule$ = this.store.select('schedule');
         this.subscriptions = [
             this.scheduleService.schedule$.subscribe()
         ];

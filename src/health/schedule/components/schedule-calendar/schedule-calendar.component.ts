@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { ScheduleItem } from 'src/health/shared/models/scheduleItem.model';
+import { ScheduleList } from 'src/health/shared/models/scheduleList.model';
 
 @Component({
     selector: 'schedule-calendar',
@@ -6,10 +8,21 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnI
     styleUrls: ['./schedule-calendar.component.scss']
 })
 export class ScheduleCalendarComponent implements OnInit, OnChanges {
+    @Input()
+    set date(date: Date) {
+        this.selectedDay = new Date(date.getTime());
+    }
+    @Input() items: ScheduleList;
     @Output() changeIt = new EventEmitter<Date>();
     selectedDayIndex: number;
     selectedDay: Date;
     selectedWeek: Date;
+    sections = [
+        { key: 'morning', name: 'Morning' },
+        { key: 'lunch', name: 'Lunch' },
+        { key: 'evening', name: 'Evening' },
+        { key: 'snacks', name: 'Snacks and Drinks' },
+    ];
 
     constructor() { }
 
@@ -21,9 +34,8 @@ export class ScheduleCalendarComponent implements OnInit, OnChanges {
         this.selectedWeek = this.getStartOfWeek(new Date(this.selectedDay));
     }
 
-    @Input()
-    set date(date: Date) {
-        this.selectedDay = new Date(date.getTime());
+    getSection(name: string): ScheduleItem {
+        return this.items && this.items[name] || {};
     }
 
     onChange(weekOffset: number) {
