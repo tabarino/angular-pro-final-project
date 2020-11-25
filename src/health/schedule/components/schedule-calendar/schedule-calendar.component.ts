@@ -14,6 +14,7 @@ export class ScheduleCalendarComponent implements OnInit, OnChanges {
     }
     @Input() items: ScheduleList;
     @Output() changeIt = new EventEmitter<Date>();
+    @Output() selectIt = new EventEmitter<any>();
     selectedDayIndex: number;
     selectedDay: Date;
     selectedWeek: Date;
@@ -36,6 +37,17 @@ export class ScheduleCalendarComponent implements OnInit, OnChanges {
 
     getSection(name: string): ScheduleItem {
         return this.items && this.items[name] || {};
+    }
+
+    selectSection({ type, assigned, data}: any, section: string) {
+        const day = this.selectedDay;
+        this.selectIt.emit({
+            type,
+            assigned,
+            section,
+            day,
+            data
+        });
     }
 
     onChange(weekOffset: number) {

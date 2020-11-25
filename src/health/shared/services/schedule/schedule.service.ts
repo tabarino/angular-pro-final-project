@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { first, map, switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { AuthService } from 'src/auth/shared/services/auth/auth.service';
 import { Store } from 'src/store/store';
 import { ScheduleItem } from '../../models/scheduleItem.model';
@@ -11,7 +11,11 @@ import * as dbUtils from '../db-utils';
 @Injectable()
 export class ScheduleService {
     private date$ = new BehaviorSubject(new Date());
+    private section$ = new Subject();
     schedule$: Observable<ScheduleItem[] | ScheduleList>;
+    selected$ = this.section$.pipe(
+        tap((next: any) => this.store.set('selected', next))
+    );
 
     constructor(
         private store: Store,
@@ -52,6 +56,10 @@ export class ScheduleService {
 
     updateDate(date: Date) {
         this.date$.next(date);
+    }
+
+    selectSection(event: any) {
+        this.section$.next(event);
     }
 
     private getSchedule(startAt: number, endAt: number) {
