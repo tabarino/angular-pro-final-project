@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { AuthService } from 'src/auth/shared/services/auth/auth.service';
 import { Store } from 'src/store/store';
 import { ScheduleItem } from '../../models/scheduleItem.model';
@@ -12,6 +12,30 @@ import * as dbUtils from '../db-utils';
 export class ScheduleService {
     private date$ = new BehaviorSubject(new Date());
     private section$ = new Subject();
+    private itemList$ = new Subject();
+    items$ = this.itemList$.pipe(
+        withLatestFrom(this.section$),
+        map(([items, section]: any) => {
+            const id = section.data.id;
+            const defaults: ScheduleItem = {
+                uid: this.uid,
+                section: section.section,
+                meals: null,
+                workouts: null,
+                timestamp: new Date(section.day).getTime()
+            };
+            const payload = {
+                ...(id ? section.data : defaults),
+                ...items
+            };
+
+            if (id) {
+                return this.updateSection(id, payload);
+            } else {
+                return this.createSection(payload);
+            }
+        })
+    );
     schedule$: Observable<ScheduleItem[] | ScheduleList>;
     selected$ = this.section$.pipe(
         tap((next: any) => this.store.set('selected', next))
@@ -62,8 +86,22 @@ export class ScheduleService {
         this.date$.next(date);
     }
 
+    updateItems(items: string[]) {
+        this.itemList$.next(items);
+    }
+
     selectSection(event: any) {
         this.section$.next(event);
+    }
+
+    private createSection(payload: ScheduleItem) {
+        return this.db.collection('schedule').add({
+            ...payload
+        });
+    }
+
+    private updateSection(id: string, payload: ScheduleItem) {
+        return this.db.doc(`schedule/${id}`).update(payload);
     }
 
     private getSchedule(startAt: number, endAt: number) {
