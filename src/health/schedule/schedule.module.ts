@@ -8,6 +8,7 @@ import { ScheduleCalendarComponent } from './components/schedule-calendar/schedu
 import { ScheduleControlsComponent } from './components/schedule-controls/schedule-controls.component';
 import { ScheduleDaysComponent } from './components/schedule-days/schedule-days.component';
 import { ScheduleSectionComponent } from './components/schedule-section/schedule-section.component';
+import { ScheduleAssignComponent } from './components/schedule-assign/schedule-assign.component';
 
 @NgModule({
     declarations: [
@@ -15,7 +16,8 @@ import { ScheduleSectionComponent } from './components/schedule-section/schedule
         ScheduleCalendarComponent,
         ScheduleControlsComponent,
         ScheduleDaysComponent,
-        ScheduleSectionComponent
+        ScheduleSectionComponent,
+        ScheduleAssignComponent
     ],
     imports: [
         CommonModule,

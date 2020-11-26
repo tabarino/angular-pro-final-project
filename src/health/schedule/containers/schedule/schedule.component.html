@@ -5,4 +5,8 @@
         (changeIt)="changeDate($event)"
         (selectIt)="changeSection($event)">
     </schedule-calendar>
+    <schedule-assign *ngIf="open"
+        [section]="selected$ | async"
+        [list]="list$ | async">
+    </schedule-assign>
 </div>
